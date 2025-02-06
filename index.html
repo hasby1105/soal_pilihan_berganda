@@ -9,16 +9,33 @@
 <body>
   <div class="quiz-container">
     <h2>Quiz Pilihan Ganda</h2>
-    <form id="quizForm">
+
+    <div id="userInputForm">
+      <label for="name">Nama:</label>
+      <input type="text" id="name" placeholder="Masukkan Nama" required><br>
+      <label for="kelas">Kelas:</label>
+      <input type="text" id="kelas" placeholder="Masukkan Kelas" required><br>
+      <label for="nim">NIM:</label>
+      <input type="text" id="nim" placeholder="Masukkan NIM" required><br>
+      <button type="button" onclick="startQuiz()">Mulai Quiz</button>
+    </div>
+
+    <form id="quizForm" style="display: none;">
       <div id="question-container"></div>
+      <button type="button" id="previousButton" onclick="previousQuestion()" style="display: none;">Sebelumnya</button>
       <button type="button" id="nextButton" onclick="nextQuestion()">Berikutnya</button>
       <button type="button" id="submitButton" onclick="submitQuiz()" style="display: none;">Kirim Jawaban</button>
     </form>
+
     <div id="result" style="display: none;">
       <h3>Hasil:</h3>
-      <p id="score"></p>
+      <p><strong>Nama:</strong> <span id="resultName"></span></p>
+      <p><strong>Kelas:</strong> <span id="resultKelas"></span></p>
+      <p><strong>NIM:</strong> <span id="resultNIM"></span></p>
+      <p><strong>Skor Anda:</strong> <span id="score"></span></p>
     </div>
   </div>
+
   <script src="java.js"></script>
 </body>
 </html>

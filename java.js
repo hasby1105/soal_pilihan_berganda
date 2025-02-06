@@ -1,5 +1,10 @@
-const questions = [{
-},
+let currentQuestionIndex = 0;
+let score = 0;
+let userName = "";
+let userClass = "";
+let userNIM = "";
+
+const questions = [
   {
     question: "1. Apa tag yang digunakan untuk menulis judul halaman di bagian atas browser?",
     choices: ["A) title", "B) header", "C) h1", "D) meta"],
@@ -52,8 +57,19 @@ const questions = [{
   }
 ];
 
-let currentQuestionIndex = 0;
-let score = 0;
+function startQuiz() {
+  userName = document.getElementById('name').value;
+  userClass = document.getElementById('kelas').value;
+  userNIM = document.getElementById('nim').value;
+
+  if (userName && userClass && userNIM) {
+    document.getElementById('userInputForm').style.display = 'none';
+    document.getElementById('quizForm').style.display = 'block';
+    displayQuestion(currentQuestionIndex);
+  } else {
+    alert("Silakan isi Nama, Kelas, dan NIM!");
+  }
+}
 
 function displayQuestion(index) {
   const questionContainer = document.getElementById('question-container');
@@ -67,6 +83,20 @@ function displayQuestion(index) {
       </label><br>
     `).join('')}
   `;
+
+  if (index === 0) {
+    document.getElementById('previousButton').style.display = 'none';
+  } else {
+    document.getElementById('previousButton').style.display = 'inline';
+  }
+
+  if (index === questions.length - 1) {
+    document.getElementById('nextButton').style.display = 'none';
+    document.getElementById('submitButton').style.display = 'block';
+  } else {
+    document.getElementById('nextButton').style.display = 'inline';
+    document.getElementById('submitButton').style.display = 'none';
+  }
 }
 
 function nextQuestion() {
@@ -80,9 +110,13 @@ function nextQuestion() {
   currentQuestionIndex++;
   if (currentQuestionIndex < questions.length) {
     displayQuestion(currentQuestionIndex);
-  } else {
-    document.getElementById('nextButton').style.display = 'none';
-    document.getElementById('submitButton').style.display = 'block';
+  }
+}
+
+function previousQuestion() {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
+    displayQuestion(currentQuestionIndex);
   }
 }
 
@@ -94,10 +128,13 @@ function submitQuiz() {
       score++;
     }
   }
+
+  document.getElementById('resultName').textContent = userName;
+  document.getElementById('resultKelas').textContent = userClass;
+  document.getElementById('resultNIM').textContent = userNIM;
   document.getElementById('score').textContent = `Skor Anda: ${score}/10`;
-  document.getElementById('result').style.display = 'block';
+
+  document.getElementById('quizForm').style.display = 'none';
   document.getElementById('submitButton').style.display = 'none';
+  document.getElementById('result').style.display = 'block';
 }
-
-
-  
