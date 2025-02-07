@@ -3,6 +3,7 @@ let score = 0;
 let userName = "";
 let userClass = "";
 let userNIM = "";
+let answers = []; 
 
 const questions = [
   {
@@ -74,11 +75,15 @@ function startQuiz() {
 function displayQuestion(index) {
   const questionContainer = document.getElementById('question-container');
   const question = questions[index];
+  
+  const selectedAnswer = answers[index];
+
   questionContainer.innerHTML = `
     <p>${question.question}</p>
     ${question.choices.map((choice, i) => `
       <label>
-        <input type="radio" name="q${index}" value="${String.fromCharCode(65 + i)}">
+        <input type="radio" name="q${index}" value="${String.fromCharCode(65 + i)}" 
+          ${selectedAnswer === String.fromCharCode(65 + i) ? 'checked' : ''}>
         <span>${choice}</span>
       </label><br>
     `).join('')}
@@ -102,8 +107,8 @@ function displayQuestion(index) {
 function nextQuestion() {
   const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
   if (selectedAnswer) {
-    const answerValue = selectedAnswer.value;
-    if (answerValue === questions[currentQuestionIndex].correctAnswer) {
+    answers[currentQuestionIndex] = selectedAnswer.value; 
+    if (selectedAnswer.value === questions[currentQuestionIndex].correctAnswer) {
       score++;
     }
   }
@@ -114,6 +119,10 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
+  const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+  if (selectedAnswer) {
+    answers[currentQuestionIndex] = selectedAnswer.value;
+  }
   if (currentQuestionIndex > 0) {
     currentQuestionIndex--;
     displayQuestion(currentQuestionIndex);
@@ -123,8 +132,8 @@ function previousQuestion() {
 function submitQuiz() {
   const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
   if (selectedAnswer) {
-    const answerValue = selectedAnswer.value;
-    if (answerValue === questions[currentQuestionIndex].correctAnswer) {
+    answers[currentQuestionIndex] = selectedAnswer.value; 
+    if (selectedAnswer.value === questions[currentQuestionIndex].correctAnswer) {
       score++;
     }
   }
